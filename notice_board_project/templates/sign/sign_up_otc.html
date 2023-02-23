@@ -1,0 +1,11 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<h2> Активировать аккаунт </h2>
+Ваш аккаунт был успешно создан, но чтобы иметь возможность зайти в него, введите присланный вам на почту одноразовый код в форму ниже
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Продолжить">
+</form>
+{% endblock %}

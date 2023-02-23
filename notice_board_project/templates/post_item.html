@@ -1,0 +1,36 @@
+{% extends 'default.html' %}
+
+{% load guardian_tags %}
+
+{% block title %}
+{{ post_item.name}}
+{% endblock title %}
+
+{% block content %}
+
+<h2>{{ post_item.name }}</h2>
+<h5>Опубликовано {{ post_item.date|date:'d M Y' }}</h5>
+<h5>пользователем {{ post_item.author.username }}</h5>
+{{ post_item.text|safe}}
+
+<p>Категории:
+    <br>{% for category in post_item.categories.all %}
+    <a href="../category/{{ category.id }}">{{ category.name }}</a>
+    {% endfor %}
+</p>
+
+{% get_obj_perms request.user for post_item as "post_perms" %}
+<p>
+{% if "change_post" in post_perms %}
+    <button><a href="edit/">Редактировать</a> </button>
+{% endif %}
+{% if "delete_post" in post_perms %}
+    <button><a href="delete/">Удалить</a> </button>
+{% else %}
+    Заинтересовало объявление? <br><a href="respond">Откликнись на него!</a>
+{% endif %}
+</p>
+
+<p><a href="../">Все посты</a></p>
+
+{% endblock content %}

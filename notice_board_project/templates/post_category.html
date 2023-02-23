@@ -1,0 +1,32 @@
+{% extends 'default.html' %}
+
+{% block title %}
+{{ post_category.name }}
+{% endblock title %}
+
+{% block content %}
+<h2>Все объявления в категории '{{ category }}'</h2>
+{% if not request.user in category.subscribers.all %}
+<h5>Следите за этой категорией?
+    <br><button><a href="subscribe">Подпишитесь на неё!</a></button></h5>
+{% else %}
+<h5>Больше не следите за этой категорией?
+    <br><button><a href="unsubscribe">Нажмите здесь, чтобы отписаться</a></button></h5>
+{% endif %}
+<table>
+    <tr>
+        <th>Дата</th>
+        <th>Заголовок</th>
+        <th>Автор</th>
+    </tr>
+    {% for post in post_category %}
+    {% if category in post.categories.all %}
+    <tr>
+        <td>{{ post.date|date:'d M Y' }}</td>
+        <td><a href="../../{{ post.id }}">{{ post.name }}</a></td>
+        <td>{{ post.author.username }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endblock content %}
